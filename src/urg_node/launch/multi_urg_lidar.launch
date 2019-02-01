@@ -1,0 +1,42 @@
+<launch>
+
+<!-- A simple launch file for the urg_node package. -->
+
+<!--  When using an IP-connected LIDAR, populate the "ip_address" parameter with the address of the LIDAR.
+      Otherwise, leave it blank. If supported by your LIDAR, you may enable the publish_intensity
+      and/or publish_multiecho options. -->
+
+  <node pkg="urg_node" type="urg_node" output="screen" name="laser_forward">
+    <param name="ip_address" value="192.168.1.20"/>
+    <param name="serial_port" value="/dev/ttyACM0"/>
+    <param name="serial_baud" value="115200"/>
+    <param name="frame_id" value="scan1"/>
+    <param name="calibrate_time" value="true"/>
+    <param name="publish_intensity" value="true"/>
+    <param name="publish_multiecho" value="false"/>
+    <param name="angle_min" value="-2.30"/>
+    <param name="angle_max" value="2.19"/>
+    <param name="offset_x" value="0.0"/>
+    <param name="offset_y" value="0.0"/>
+    <param name="offset_z" value="0.0"/>
+    <remap from="scan" to="scan1"/>
+  </node>
+  
+  <node pkg="urg_node" type="urg_node" output="screen" name="laser_backward">
+    <param name="ip_address" value="192.168.1.22"/>
+    <param name="serial_port" value="/dev/ttyACM1"/>
+    <param name="serial_baud" value="115200"/>
+    <param name="frame_id" value="scan2"/>
+    <param name="calibrate_time" value="true"/>
+    <param name="publish_intensity" value="true"/>
+    <param name="publish_multiecho" value="false"/>
+    <param name="angle_min" value="-2.350"/>
+    <param name="angle_max" value="2.350"/>
+    <param name="offset_x" value="0.0"/>
+    <param name="offset_y" value="0.0"/>
+    <param name="offset_z" value="0.0"/>
+    <remap from="scan" to="scan2"/>
+  </node>
+
+
+</launch>

@@ -1,0 +1,29 @@
+!!python/object/new:dynamic_reconfigure.encoding.Config
+dictitems:
+  angle_max: 2.3518311670623593
+  angle_min: -2.3518311670623593
+  cluster: 1
+  frame_id: scan2
+  groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+    dictitems:
+      angle_max: 2.3518311670623593
+      angle_min: -2.3518311670623593
+      cluster: 1
+      frame_id: scan2
+      groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      id: 0
+      name: Default
+      parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      parent: 0
+      skip: 0
+      state: true
+      tf_prefix: ''
+      time_offset: 3.0
+      type: ''
+    state: []
+  skip: 0
+  tf_prefix: ''
+  time_offset: 3.0
+state: []

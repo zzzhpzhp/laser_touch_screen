@@ -1,0 +1,76 @@
+<!--
+/*************************************************************************
+ *
+ * RENAISSANCE ROBOT LLC CONFIDENTIAL
+ * __________________
+ *
+ *  [2017] RENAISSANCE ROBOT LLC
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains the property of
+ * Renaissance Robot LLC and its suppliers, if any. The intellectual and
+ * technical concepts contained herein are proprietary to Renaissance Robot LLC
+ * and its suppliers and may be covered by U.S. and Foreign Patents, patents in
+ * process, and are protected by trade secret or copyright law.
+ *
+ * Dissemination of this information or reproduction of this material is strictly
+ * forbidden unless prior written permission is obtained from Renaissance Robot LLC.
+ * 
+ * @file:
+ * @author: huangping.zhong   Mail: huangping.zhong@forwardx.ai
+ * @version: v2.1
+ * @brief:
+ *************************************************************************/
+-->
+
+<launch>
+
+  <arg name="debug" default="false" />
+  <arg if="$(arg debug)" name="launch_prefix" value="xterm -e gdb --args " />
+  <arg unless="$(arg debug)" name="launch_preqfix" value="" />
+
+	<node pkg="laser_touch_screen" type="laser_touch_screen_node" name="laser_touch_screen" output="screen"  respawn="true">
+      <!-- <param name="origin_frame_id"                     value="origin"/>
+      <param name="top_left_scan_name"                  value="/top_left_scan"/>
+      <param name="top_left_frame_id"                   value="top_left_scan"/>
+      <param name="top_left_dodule_namespace"           value="top_left"/>
+      <param name="top_left_pub_end_point_en"           value="true"/>
+      <param name="top_left_scan_origin_x"              value="0.0"/>
+      <param name="top_left_scan_origin_y"              value="0.0"/>
+      <param name="top_left_scan_origin_z"              value="0.0"/>
+      <param name="top_left_scan_yaw"                   value="-2.3562"/>
+      <param name="top_left_scan_pitch"                 value="0.0"/>
+      <param name="top_left_scan_roll"                  value="0.0"/>
+
+      <param name="origin_frame_id"                     value="origin"/>
+      <param name="lower_right_scan_name"               value="/lower_right_scan"/>
+      <param name="lower_right_frame_id"                value="lower_right_scan"/>
+      <param name="lower_right_module_namespace"        value="lower_right"/>
+      <param name="lower_right_pub_end_point_en"        value="true"/>
+      <param name="lower_right_scan_origin_x"           value="-3.0"/>
+      <param name="lower_right_scan_origin_y"           value="-5.0"/>
+      <param name="lower_right_scan_origin_z"           value="0.0"/>
+      <param name="lower_right_scan_yaw"                value="0.7853"/>
+      <param name="lower_right_scan_pitch"              value="0.0"/>
+      <param name="lower_right_scan_roll"               value="0.0"/> -->
+	</node>
+
+  <node pkg="tf" type="static_transform_publisher" name="origin_screen_origin_tf" args=" 0  0 0 -1.5708  0 0 origin screen_origin 10" /> 
+  <node pkg="tf" type="static_transform_publisher" name="screen_origin_tlscan_tf" args=" 0  0 0  0       0 0 screen_origin top_left_laser 10" /> 
+  <node pkg="tf" type="static_transform_publisher" name="screen_origin_lrscan_tf" args=" 1.3 -0.8 0  1.5708  0 0 screen_origin lower_right_laser 10" /> 
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="lts_scan_filter1" respawn="true">
+      <rosparam command="load" file="$(find laser_touch_screen)/filters.yaml" />
+      <remap from="scan" to="/scan1" />
+      <param name="topic_name" value="/top_left_scan"/>
+      <param name="msg_frame_id" value="top_left_scan"/>
+  </node>
+
+  <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="lts_scan_filter2" respawn="true">
+      <rosparam command="load" file="$(find laser_touch_screen)/filters.yaml" />
+      <remap from="scan" to="/scan2" />
+      <param name="topic_name" value="/lower_right_scan"/>
+      <param name="msg_frame_id" value="lower_right_scan"/>
+  </node>
+
+</launch>
